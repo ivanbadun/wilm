@@ -1,0 +1,83 @@
+/* -----------------------------------------
+   Home page slider
+----------------------------------------- */
+
+.home-slider:not(.slick-initialized) {
+	&::after {
+		content: '';
+		display: table;
+		clear: both;
+	}
+
+	.home-slide:first-child {
+		display: block;
+	}
+}
+
+.home-slider {
+	.slick-arrow {
+		/* Slick arrows global styles */
+	}
+
+	.slick-prev {
+		//&::before {
+		//}
+	}
+
+	.slick-next {
+		//&::before {
+		//}
+	}
+
+	.slick-dots {
+		/* Slick dots global styles */
+		font-size: 0;
+
+		li {
+			&:only-child {
+				display: none;
+			}
+		}
+	}
+
+	.videoHolder {
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		overflow: hidden;
+
+		.video {
+			pointer-events: none;
+
+			@include position-center;
+		}
+	}
+}
+
+.home-slide {
+	width: 100%;
+	min-height: 400px;
+	height: 600px; /* define the height of slide */
+	transition: height 0.3s ease;
+
+	@include media-breakpoint-down(md) {
+		height: 500px;
+	}
+
+	@include media-breakpoint-down(sm) {
+		height: 400px;
+	}
+
+	&__inner {
+		@extend %bgcover;
+
+		position: relative;
+		height: 100%;
+	}
+
+	&__caption {
+		@include position-center;
+	}
+}
