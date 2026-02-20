@@ -52,8 +52,7 @@ endif; ?>
 <!-- END of Alert Bar -->
 
 <!-- BEGIN of header -->
-<header class="header-main d-flex flex-column">
-    <?php if( have_rows('top_header_logos', 'option') ): ?>
+<header class="header-main d-flex flex-column"> <?php if( have_rows('top_header_logos', 'option') ): ?>
         <div class="brand-bar border-bottom py-2 order-1">
             <div class="container">
                 <div class="brand-grid">
@@ -103,10 +102,9 @@ endif; ?>
 
             <div class="mobile-action-row d-flex d-lg-none w-100 align-items-center justify-content-between mt-3 pt-2 border-top">
                 <div class="d-flex align-items-center gap-3">
-                    <a href="#" class="fb-link"><i class="fa-brands fa-facebook-f"></i></a>
                     <?php if($phone): ?>
                         <a href="tel:<?php echo preg_replace('/[^\d+]/', '', $phone); ?>" class="phone-link">
-                            <i class="fa fa-phone" aria-hidden="true">></i> <?php echo esc_html($phone); ?>
+                            <i class="fa fa-phone" aria-hidden="true"></i> <?php echo esc_html($phone); ?>
                         </a>
                     <?php endif; ?>
                 </div>
@@ -115,8 +113,7 @@ endif; ?>
                 <?php endif; ?>
             </div>
 
-            <div class="collapse navbar-collapse" id="mainMenu">
-                <div class="nav-wrapper-right ms-auto d-flex flex-column align-items-end w-100">
+            <div class="collapse navbar-collapse" id="mainMenu"> <div class="nav-wrapper-right ms-auto d-flex flex-column align-items-end w-100">
 
                     <div class="desktop-top-contacts d-none d-lg-flex align-items-center mb-1">
                         <?php if($phone): ?>
@@ -124,16 +121,15 @@ endif; ?>
                                 <i class="fa fa-phone" aria-hidden="true"></i> <?php echo esc_html($phone); ?>
                             </a>
                         <?php endif; ?>
-                        <a href="#" class="fb-link"><i class="fa-brands fa-facebook-f"></i></a>
                     </div>
 
                     <div class="d-flex align-items-center flex-column flex-lg-row w-100 justify-content-lg-end">
                         <?php if ( has_nav_menu( 'header-menu' ) ) : ?>
                             <?php wp_nav_menu( array(
                                     'theme_location' => 'header-menu',
+                                    'menu_id'        => 'main-menu-list',
                                     'menu_class'     => 'navbar-nav text-uppercase fw-bold',
                                     'container'      => false,
-                                    'items_wrap'     => '<ul id="%1$s" class="%2$s">%3$s</ul>',
                                     'walker'         => new Bootstrap_Navigation(),
                             ) ); ?>
                         <?php endif; ?>
@@ -149,4 +145,20 @@ endif; ?>
         </div>
     </nav>
 </header>
+
+<script>
+    jQuery(document).ready(function($) {
+        $('.nav-item.dropdown > .nav-link').on('click', function(e) {
+            if ($(window).width() < 992) {
+                e.preventDefault();
+                var $parent = $(this).parent('.nav-item');
+                var $menu = $(this).siblings('.dropdown-menu');
+
+                // Переключаем классы
+                $parent.toggleClass('show');
+                $menu.toggleClass('show');
+            }
+        });
+    });
+</script>
 <!-- END of header -->

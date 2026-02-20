@@ -3,25 +3,8 @@ $form_side = get_sub_field('form_side');
 $section_class = ($form_side == 'right') ? 'form-map-section--reverse' : '';
 ?>
 
-<section class="form-map-section <?php echo $section_class; ?>">
-    <div class="map-col">
-        <?php
-        $map_type = get_sub_field('map_type');
-        if ( $map_type == 'image' ) :
-            $image = get_sub_field('map_image');
-            $link = get_sub_field('image_link');
-            if ( $image ) : ?>
-                <a href="<?php echo esc_url($link); ?>" target="_blank" rel="noopener" class="map-link">
-                    <img src="<?php echo esc_url($image['url']); ?>" alt="Map Location">
-                </a>
-            <?php endif;
-        else :
-            echo get_sub_field('map_embed');
-        endif;
-        ?>
-    </div>
-
-    <div class="container">
+<section class="form-map-section d-flex flex-column <?php echo $section_class; ?>">
+    <div class="container form-col-wrapper">
         <div class="row <?php echo ($form_side == 'right') ? 'justify-content-end' : ''; ?>">
             <div class="col-lg-6">
                 <div class="career-details form-inner-content px-4">
@@ -43,5 +26,22 @@ $section_class = ($form_side == 'right') ? 'form-map-section--reverse' : '';
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="map-col">
+        <?php
+        $map_type = get_sub_field('map_type');
+        if ( $map_type == 'image' ) :
+            $image = get_sub_field('map_image');
+            $link = get_sub_field('image_link');
+            if ( $image ) : ?>
+                <a href="<?php echo esc_url($link); ?>" target="_blank" rel="noopener" class="map-link">
+                    <img src="<?php echo esc_url($image['url']); ?>" alt="Map Location">
+                </a>
+            <?php endif;
+        else :
+            echo get_sub_field('map_embed');
+        endif;
+        ?>
     </div>
 </section>

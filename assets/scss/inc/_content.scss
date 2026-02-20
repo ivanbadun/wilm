@@ -281,8 +281,48 @@ hr {
 }
 
 @media (max-width: 768px) {
+  .products-module {
+    .products-module__header {
+      .header-left {
+        .d-flex {
+          flex-direction: column !important;
+        }
+      }
+    }
+
+    .product-dropdown {
+      width: 100% !important;
+      max-width: 100% !important;
+      margin-bottom: 15px;
+    }
+
+    .header-right,
+    .products-module__footer {
+      width: 100%;
+      margin: 0 !important;
+      display: flex;
+      flex-direction: column;
+      gap: 0px;
+
+      a, .btn {
+        display: flex;
+        width: 100% !important;
+        justify-content: center;
+        box-sizing: border-box;
+      }
+    }
+
+    .products-module__footer {
+      margin-top: 20px !important;
+    }
+  }
+
   .content-module-50-50 {
     flex-direction: column !important;
+  }
+
+  .media-column {
+    order: -1;
   }
 
   .content-module-50-50.gradient-overlay .media-wrapper::after {
@@ -291,10 +331,21 @@ hr {
 
   .media-wrapper {
     height: 350px;
+    margin-bottom: 20px;
   }
 
   .text-column {
-    padding: 20px;
+    padding: 30px 15px;
+
+    .btn--blue,
+    .btn--teal {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      margin-left: 0;
+      margin-right: 0;
+      box-sizing: border-box;
+    }
   }
 }
 
@@ -595,6 +646,9 @@ hr {
 }
 
 /* Form/Map */
+$teal: #00a19a;
+$white: #ffffff;
+
 .form-map-section {
   position: relative;
   overflow: hidden;
@@ -624,6 +678,13 @@ hr {
         border-color: $white !important;
         color: $white !important;
       }
+
+      .gform_footer {
+        input[type="submit"], button {
+          width: 100% !important;
+          display: block;
+        }
+      }
     }
   }
 
@@ -652,24 +713,38 @@ hr {
   }
 }
 
-@media (max-width: 991px) {
+@media (max-width: 991.98px) {
   .form-map-section {
-    display: block;
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: auto;
 
     .map-col {
       position: relative;
-      width: 100%;
-      height: 400px;
+      width: 100% !important;
+      height: 350px;
+      order: 2;
+      right: auto;
+      left: auto;
     }
 
     .form-inner-content {
-      padding: 60px 0;
+      order: 1;
+      padding: 40px 15px;
       max-width: 100%;
+      width: 100%;
     }
 
     &--reverse {
-      display: flex;
-      flex-direction: column-reverse;
+      flex-direction: column !important;
+
+      .map-col {
+        order: 2;
+      }
+
+      .form-inner-content {
+        order: 1;
+      }
     }
   }
 }

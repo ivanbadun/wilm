@@ -273,26 +273,30 @@
 		$( '#main-menu' ).dropdown( 'hide' );
 	}, 200 );
 	$( window ).on( 'resize', function() {
-
-		//jQuery code goes here
 		resizeVideoCallback();
+		var $navBar = $( '.header-main' ).find( '.navbar' );
 
-		// Close responsive menu on Responsive menu breakpoint pass
-		var $navBar = $( '.header' ).find( '.navbar' );
-		var classes = $.grep( $navBar[0].className.split( ' ' ), function( v, i ) {
-			return v.indexOf( 'navbar-expand' ) !== -1;
-		} ).join();
+		// Проверка: существует ли navbar вообще
+		if ( $navBar.length > 0 && $navBar[0].className ) {
+			var classes = $.grep( $navBar[0].className.split( ' ' ), function( v, i ) {
+				return v.indexOf( 'navbar-expand' ) !== -1;
+			} ).join();
 
-		if ( classes.length ) {
-			var menuBreakpoint = classes.replace( 'navbar-expand-', '' );
-			// Get ::root var value
-			var breakpointWidth = getComputedStyle( document.body ).getPropertyValue( '--breakpoint-' + menuBreakpoint ).replace( /\D/g, '' );
-			if ( (window.innerWidth > breakpointWidth) && ($navBar.find( '.dropdown-menu' ).hasClass( 'show' ) || $( '#main-menu' ).hasClass( 'show' )) ) {
-				closeMenuCallback();
+			if ( classes.length ) {
+				var menuBreakpoint = classes.replace( 'navbar-expand-', '' );
+				var breakpointValue = getComputedStyle( document.body ).getPropertyValue( '--breakpoint-' + menuBreakpoint );
+				var breakpointWidth = breakpointValue ? breakpointValue.replace( /\D/g, '' ) : 992;
+
+				if ( window.innerWidth > breakpointWidth ) {
+					$( '.navbar-collapse' ).collapse( 'hide' );
+					$( '.dropdown-menu' ).removeClass( 'show' );
+				}
 			}
 		}
 
-		updateHomeSlidesHeight();
+		if (typeof updateHomeSlidesHeight === "function") {
+			updateHomeSlidesHeight();
+		}
 	} );
 
 	// Scripts which runs on scrolling

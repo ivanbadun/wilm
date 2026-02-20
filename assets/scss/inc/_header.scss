@@ -1,5 +1,13 @@
-.header-main { background: $white; position: relative; z-index: 1000; }
-.main-logo-img { height: 70px; width: auto; }
+.header-main {
+	background: $white;
+	position: relative;
+	z-index: 1000;
+}
+
+.main-logo-img {
+	height: 70px;
+	width: auto;
+}
 
 .navbar-toggler {
 	width: 40px;
@@ -58,39 +66,63 @@
 		width: auto;
 		opacity: 0.7;
 		transition: 0.3s;
+		&:hover { opacity: 1; }
 	}
 }
 
-/* Стандартная стрелочка Bootstrap 4 */
-.dropdown-toggle::after {
-	display: inline-block;
-	margin-left: 0.255em;
-	vertical-align: 0.255em;
-	content: "";
-	border-top: 0.3em solid;
-	border-right: 0.3em solid transparent;
-	border-bottom: 0;
-	border-left: 0.3em solid transparent;
+.phone-link {
+	color: $teal;
+	font-weight: bold;
+	text-decoration: none;
+	&:hover { color: darken($teal, 10%); }
 }
 
 @media (min-width: 992px) {
-	.navbar-nav .nav-link {
-		color: #333 !important;
-		font-size: 14px;
-		padding: 0 12px !important;
-		&:hover { color: $teal !important; }
-	}
+	.navbar-nav {
+		.nav-link {
+			color: #333 !important;
+			font-size: 14px;
+			padding: 0 12px !important;
+			transition: 0.3s;
+			display: flex;
+			align-items: center;
 
-	/* Открытие при наведении для десктопа */
-	.nav-item.dropdown:hover > .dropdown-menu {
-		display: block;
+			&:hover { color: $teal !important; }
+		}
+
+		.nav-item.dropdown {
+			&:hover > .dropdown-menu {
+				display: block;
+				margin-top: 0;
+			}
+
+			.nav-link.dropdown-toggle {
+				&::after {
+					display: inline-block;
+					content: "";
+					width: 0.4em;
+					height: 0.4em;
+					margin-left: 8px;
+					border-right: 2px solid currentColor;
+					border-bottom: 2px solid currentColor;
+					transform: rotate(45deg);
+					border-top: none;
+					border-left: none;
+					transition: 0.3s;
+					background: transparent;
+				}
+			}
+
+			&:hover .nav-link.dropdown-toggle::after {
+				transform: rotate(225deg);
+				margin-top: 3px;
+			}
+		}
 	}
 }
 
 @media (min-width: 1200px) {
-	.navbar-nav .nav-link {
-		font-size: 18px;
-	}
+	.navbar-nav .nav-link { font-size: 18px; }
 }
 
 @media (max-width: 991.98px) {
@@ -98,9 +130,8 @@
 
 	.header-main { display: flex; flex-direction: column; }
 
-	/* Убрана линия под лого на мобильном */
 	.brand-bar {
-		order: 10 !important;
+		order: 10;
 		border-top: 1px solid #eee;
 		border-bottom: none !important;
 		margin-top: 10px;
@@ -125,44 +156,68 @@
 		width: 100%;
 		background: $teal !important;
 		z-index: 9999;
-		padding: 10px 0;
+		padding: 0;
 		max-height: 80vh;
 		overflow-y: auto;
 	}
 
 	.navbar-nav {
 		width: 100%;
+		margin: 0;
+
 		.nav-item {
-			border-bottom: 1px solid rgba(255,255,255,0.05);
+			border-bottom: 1px solid rgba(255,255,255,0.1);
+
 			.nav-link {
 				color: #fff !important;
 				padding: 15px 20px !important;
-				&:hover { background: rgba(255,255,255,0.1); }
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				background: transparent !important;
+
+				&.dropdown-toggle::after {
+					display: inline-block;
+					content: "";
+					width: 8px;
+					height: 8px;
+					border-right: 2px solid #fff;
+					border-bottom: 2px solid #fff;
+					transform: rotate(45deg);
+					border-top: none;
+					border-left: none;
+					margin-left: auto;
+					transition: 0.3s;
+				}
 			}
 
-			/* Исправленный мобильный Dropdown */
+			&.show .nav-link.dropdown-toggle::after {
+				transform: rotate(225deg);
+			}
+
 			.dropdown-menu {
 				position: static;
 				float: none;
-				background: rgba(0, 0, 0, 0.1) !important;
+				background: rgba(0, 0, 0, 0.15) !important;
 				border: none;
 				margin: 0;
 				padding: 0;
-				box-shadow: none;
-				display: none; /* Скрыто до нажатия */
+				display: none;
 
-				&.show {
-					display: block;
-				}
+				&.show { display: block; }
 
 				.dropdown-item {
-					color: rgba(255,255,255,0.8) !important;
+					color: #fff !important;
 					padding: 12px 20px 12px 40px !important;
-					&:hover { background: rgba(255,255,255,0.05); }
+					border-bottom: 1px solid rgba(255,255,255,0.05);
+					&:last-child { border: none; }
+					&:hover { background: rgba(255,255,255,0.1); }
 				}
 			}
 		}
 	}
 }
 
-.phone-link { color: var(--teal); font-weight: bold; text-decoration: none; }
+.submenu-toggle {
+	display: none;
+}
