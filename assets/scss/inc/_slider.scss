@@ -15,6 +15,8 @@
 }
 
 .home-slider {
+	position: relative;
+
 	.slick-arrow {
 		/* Slick arrows global styles */
 	}
@@ -30,12 +32,47 @@
 	}
 
 	.slick-dots {
-		/* Slick dots global styles */
-		font-size: 0;
+		position: absolute;
+		bottom: 100px !important;
+		left: 0;
+		right: 0;
+		width: 100%;
+		text-align: center;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		z-index: 10;
+		line-height: 0;
 
 		li {
-			&:only-child {
-				display: none;
+			display: inline-block;
+			margin: 0 6px;
+			padding: 0;
+
+			button {
+				font-size: 0;
+				line-height: 0;
+				display: block;
+				width: 15px;
+				height: 15px;
+				padding: 0;
+				cursor: pointer;
+				color: transparent;
+				border: 0;
+				outline: none;
+				border-radius: 50%;
+				background: $teal !important;
+				opacity: 0.6;
+				transition: all 0.3s ease;
+
+				&:before {
+					display: none;
+				}
+			}
+
+			&.slick-active button {
+				background: $white !important;
+				opacity: 1;
 			}
 		}
 	}
@@ -52,6 +89,47 @@
 			pointer-events: none;
 
 			@include position-center;
+		}
+	}
+
+	.slide-down-link {
+		position: absolute;
+		bottom: 40px;
+		left: 50%;
+		transform: translateX(-50%);
+		z-index: 12;
+		text-decoration: none !important;
+		cursor: pointer;
+
+		span {
+			display: block;
+			position: relative;
+			width: 30px;
+			height: 20px;
+
+			&::before,
+			&::after {
+				content: '';
+				position: absolute;
+				width: 16px;
+				height: 14px;
+				border-bottom: 2px solid $white;
+				border-right: 2px solid $white;
+				left: 50%;
+				transform: translateX(-50%) rotate(45deg);
+			}
+
+			&::before {
+				top: 0;
+			}
+
+			&::after {
+				top: 8px;
+			}
+		}
+
+		&:hover {
+			opacity: 0.8;
 		}
 	}
 }
@@ -75,9 +153,29 @@
 
 		position: relative;
 		height: 100%;
+
+		&::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background-color: rgba(0, 0, 0, 0.5);
+			z-index: 1;
+		}
 	}
 
 	&__caption {
 		@include position-center;
+		color: $white;
+		text-align: center;
+		z-index: 2;
+
+		h3 {
+			font-size: 75px;
+			line-height: 68px;
+			font-weight: 400;
+		}
 	}
 }

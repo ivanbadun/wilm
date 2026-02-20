@@ -1,28 +1,37 @@
-<!-- BEGIN of Post -->
-<article id="post-<?php the_ID(); ?>" <?php post_class( 'preview preview--' . get_post_type() ); ?>>
-	<div class="row">
-		<?php if ( has_post_thumbnail() ) : ?>
-			<div class="col-md-4 col-sm-12 col-12 text-center medium-text-left">
-				<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>">
-					<?php the_post_thumbnail( 'medium', array( 'class' => 'preview__thumb' ) ); ?>
-				</a>
-			</div>
-		<?php endif; ?>
-		<div class="col">
-			<h3 class="preview__title">
-				<a href="<?php the_permalink(); ?>"
-				   title="<?php echo esc_attr( sprintf( __( 'Permalink to %s', 'default' ), the_title_attribute( 'echo=0' ) ) ); ?>"
-				   rel="bookmark"><?php echo get_the_title() ?: __( 'No title', 'default' ); ?>
-				</a>
-			</h3>
-			<?php if ( is_sticky() ) : ?>
-				<span class="secondary label preview__sticky"><?php _e( 'Sticky', 'default' ); ?></span>
-			<?php endif; ?>
-			<div class="preview__excerpt">
-				<?php the_excerpt(); // Use wp_trim_words() instead if you need specific number of words ?>
-			</div>
-			<p class="preview__meta"><?php echo sprintf( __( 'Written by %s on %s', 'default' ), get_the_author_posts_link(), get_the_time( get_option( 'date_format' ) ) ); ?></p>
-		</div>
-	</div>
+<?php
+/**
+ * Post item (Card style)
+ *
+ * This template part is used for displaying post items in search results or archives.
+ */
+?>
+
+<article id="post-<?php the_ID(); ?>" <?php post_class('product-card h-100 mb-4'); ?>>
+    <a href="<?php the_permalink(); ?>" class="product-card__link shadow-sm d-block text-decoration-none">
+
+        <div class="product-card__image-wrapper">
+            <?php if ( has_post_thumbnail() ) : ?>
+                <?php the_post_thumbnail('medium_large', [
+                        'class' => 'product-card__img img-fluid w-100',
+                        'style' => 'object-fit: cover; aspect-ratio: 1/1;'
+                ]); ?>
+            <?php else : ?>
+                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/placeholder.jpg"
+                     alt="<?php _e('No image', 'default'); ?>"
+                     class="product-card__img img-fluid w-100"
+                     style="object-fit: cover; aspect-ratio: 1/1;">
+            <?php endif; ?>
+        </div>
+
+        <div class="product-card__title-box p-3">
+            <h3 class="product-card__title h5 mb-0 text-dark">
+                <?php the_title(); ?>
+            </h3>
+
+            <?php if ( is_sticky() ) : ?>
+                <span class="badge bg-warning text-dark mt-2"><?php _e( 'Sticky', 'default' ); ?></span>
+            <?php endif; ?>
+        </div>
+
+    </a>
 </article>
-<!-- END of Post -->

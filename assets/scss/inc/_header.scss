@@ -1,179 +1,168 @@
-.logo {
-	h1 {
-		font-size: 0;
+.header-main { background: $white; position: relative; z-index: 1000; }
+.main-logo-img { height: 70px; width: auto; }
+
+.navbar-toggler {
+	width: 40px;
+	height: 40px;
+	position: relative;
+	cursor: pointer;
+	border: 1px solid $teal !important;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	outline: none !important;
+
+	.navbar-toggler-icon {
+		background-image: none !important;
+		display: block;
+		width: 22px;
+		height: 2px;
+		background: $teal;
+		position: relative;
+		transition: 0.25s ease-in-out;
+
+		&::before, &::after {
+			content: '';
+			width: 22px;
+			height: 2px;
+			background: $teal;
+			position: absolute;
+			left: 0;
+			transition: 0.25s ease-in-out;
+		}
+		&::before { top: -7px; }
+		&::after { bottom: -7px; }
 	}
 
-	a {
-		display: inline-block;
+	&:not(.collapsed) .navbar-toggler-icon {
+		background: transparent !important;
+		&::before { top: 0; transform: rotate(45deg); }
+		&::after { bottom: 0; transform: rotate(-45deg); }
 	}
+}
 
+.brand-grid {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 15px;
+}
+
+.brand-item {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	img {
-		max-height: 150px;
+		max-height: 25px;
+		width: auto;
+		opacity: 0.7;
+		transition: 0.3s;
 	}
 }
 
-@include media-breakpoint-down(sm) {
+/* Стандартная стрелочка Bootstrap 4 */
+.dropdown-toggle::after {
+	display: inline-block;
+	margin-left: 0.255em;
+	vertical-align: 0.255em;
+	content: "";
+	border-top: 0.3em solid;
+	border-right: 0.3em solid transparent;
+	border-bottom: 0;
+	border-left: 0.3em solid transparent;
+}
 
-	.navbar-toggler {
-		margin: 10px $grid-gutter-width / 2;
-		border: none;
-		background-color: transparent;
-
-		&:hover, &:focus {
-			background-color: transparent;
-		}
-
-		@include menu-icon(#fff, #fff, 26px, 20px, 3px);
+@media (min-width: 992px) {
+	.navbar-nav .nav-link {
+		color: #333 !important;
+		font-size: 14px;
+		padding: 0 12px !important;
+		&:hover { color: $teal !important; }
 	}
 
-	.navbar {
-		background-color: $main-color;
+	/* Открытие при наведении для десктопа */
+	.nav-item.dropdown:hover > .dropdown-menu {
+		display: block;
+	}
+}
+
+@media (min-width: 1200px) {
+	.navbar-nav .nav-link {
+		font-size: 18px;
+	}
+}
+
+@media (max-width: 991.98px) {
+	.hide { display: none; }
+
+	.header-main { display: flex; flex-direction: column; }
+
+	/* Убрана линия под лого на мобильном */
+	.brand-bar {
+		order: 10 !important;
+		border-top: 1px solid #eee;
+		border-bottom: none !important;
+		margin-top: 10px;
+	}
+
+	.brand-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 20px;
+		padding: 15px 0;
+	}
+
+	.brand-item img { max-height: 35px; }
+
+	.navbar { order: 1; position: static; }
+	.mobile-action-row { order: 2; margin-bottom: 15px; padding: 0 15px; }
+
+	.navbar-collapse {
+		position: absolute;
+		top: 100%;
+		left: 0;
+		width: 100%;
+		background: $teal !important;
+		z-index: 9999;
+		padding: 10px 0;
+		max-height: 80vh;
+		overflow-y: auto;
 	}
 
 	.navbar-nav {
-		margin-left: 0;
-
+		width: 100%;
 		.nav-item {
-			> a {
-				// Regular menu link
-				padding: $nav-link-padding-y $nav-link-padding-x;
-				background: $main-color; /* menu item background color */
-				color: #fff; /* menu item text color */
-
-				&:hover {
-					background: darken($main-color, 5); /* menu item background color on hover */
-				}
+			border-bottom: 1px solid rgba(255,255,255,0.05);
+			.nav-link {
+				color: #fff !important;
+				padding: 15px 20px !important;
+				&:hover { background: rgba(255,255,255,0.1); }
 			}
 
-			&.active {
-				> a, > .submenu-toggle {
-					background: lighten($main-color, 5); /* current/parent menu item background color */
-				}
-			}
-
-			&.show {
-				> a, > .submenu-toggle {
-					background: darken($main-color, 3); /* menu item background color on open dropdown */
-				}
-			}
-
-			// Dropdown toggle arrow
-			.submenu-toggle {
-				position: absolute;
-				top: 0;
-				right: 0;
-				width: 40px;
-				height: 40px;
-				padding: 0;
-				border: none;
-				background-color: transparent;
-				box-shadow: none;
-
-				&::after {
-					content: '\f078';
-					font-family: $fa;
-					font-weight: 900;
-					@include position-center;
-				}
-
-				&[aria-expanded="true"] {
-					&::after {
-						content: '\f077';
-					}
-				}
-			}
-		}
-
-		// Link with dropdown toggle arrow
-		.dropdown-toggle {
-			padding-right: 40px;
-		}
-
-		.dropdown-menu {
-			a {
-				padding-left: #{$nav-link-padding-x * 1.65};
-			}
-
+			/* Исправленный мобильный Dropdown */
 			.dropdown-menu {
-				a {
-					padding-left: #{$nav-link-padding-x * 2.3};
+				position: static;
+				float: none;
+				background: rgba(0, 0, 0, 0.1) !important;
+				border: none;
+				margin: 0;
+				padding: 0;
+				box-shadow: none;
+				display: none; /* Скрыто до нажатия */
+
+				&.show {
+					display: block;
+				}
+
+				.dropdown-item {
+					color: rgba(255,255,255,0.8) !important;
+					padding: 12px 20px 12px 40px !important;
+					&:hover { background: rgba(255,255,255,0.05); }
 				}
 			}
 		}
 	}
 }
 
-@include media-breakpoint-up(md) {
-
-	.navbar-nav {
-		/* Align menu items to the right */
-		justify-content: flex-end;
-		/* Align menu items to the center */
-		//justify-content: center;
-
-		margin-left: 0;
-	}
-
-	.nav-link {
-		/* Regular menu item style */
-		background-color: transparent;
-		color: $main-color;
-
-		&:hover {
-			/* menu item style on hover */
-			background: $main-color;
-			color: invert($main-color);
-		}
-	}
-
-	.nav-item {
-		&.active {
-			> a {
-				/** Style of Current page and Ancestor page. Default WP classes are replaced with `active` class
-				 *	@see class-bootstrap-navigation.php - add_nav_item_bootstrap_classes()
-				 */
-				background: $main-color;
-				color: invert($main-color);
-			}
-		}
-
-		&.menu-item-has-children {
-			> [data-toggle="dropdown"] {
-				display: none;
-			}
-
-			> a {
-				/* Style of item with dropdown */
-			}
-
-			&:hover > a {
-				/* Parent link style on dropdown hover */
-				background: invert($main-color);
-				color: $main-color;
-			}
-		}
-	}
-
-	.dropdown-menu {
-		.nav-item {
-			> a {
-				/* Regular link in dropdown */
-
-				&:hover {
-					/* Dropdown link on hover */
-				}
-			}
-
-			&.active {
-				> a {
-					/* Active menu item in dropdown */
-
-				}
-			}
-		}
-
-		.dropdown-menu {
-			/* Styles for 2nd level dropdown menu */
-		}
-	}
-}
+.phone-link { color: var(--teal); font-weight: bold; text-decoration: none; }

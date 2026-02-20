@@ -261,14 +261,24 @@ function home_slider_template() { ?>
 							</div>
 						<?php endif; ?>
 
-						<div class="container home-slide__caption">
-							<div class="row">
-								<div class="col-12">
-									<h3><?php the_title(); ?></h3>
-									<?php the_content(); ?>
-								</div>
-							</div>
-						</div>
+                        <div class="container home-slide__caption">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h3><?php the_title(); ?></h3>
+                                    <?php the_content(); ?>
+                                </div>
+                            </div>
+                        </div>
+
+                        <?php
+                        $link_data = get_post_meta( get_the_ID(), 'slide_link', true );
+                        $url = is_array($link_data) ? $link_data['url'] : $link_data;
+
+                        if ( $url ) : ?>
+                            <a href="<?php echo esc_url( $url ); ?>" class="slide-down-link">
+                                <span></span>
+                            </a>
+                        <?php endif; ?>
 					</div>
 
 				</div>

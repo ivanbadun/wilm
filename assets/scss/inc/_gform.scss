@@ -1,3 +1,5 @@
+$fields-gap: 15px;
+
 .gform_wrapper ul {
 	list-style: none;
 }
@@ -82,8 +84,8 @@ $fields-gap: $grid-gutter-width;
 	}
 
 	@include media-breakpoint-up(md) {
-		margin-right: #{-$fields-gap / 2};
-		margin-left: #{-$fields-gap / 2};
+		margin-right: 0;
+		margin-left: 0;
 
 		&::after {
 			content: '';
@@ -95,9 +97,9 @@ $fields-gap: $grid-gutter-width;
 			display: block;
 			float: left;
 			width: calc(50% - #{$fields-gap});
-			margin-right: #{$fields-gap / 2};
+			margin-right: 0;
 			margin-bottom: 20px;
-			margin-left: #{$fields-gap / 2};
+			margin-left: 0;
 
 			&.ginput_full {
 				width: calc(100% - #{$fields-gap});
@@ -680,4 +682,161 @@ body .gform_wrapper ul.gform_fields li.gfield.gform_validation_container {
 		left: -9999px;
 		visibility: hidden;
 	}
+}
+
+.gform_wrapper {
+	input:not([type=radio]):not([type=checkbox]):not([type=submit]):not([type=image]):not([type=file]),
+	textarea,
+	select {
+		height: 60px;
+		padding: 10px 20px;
+		font-size: 16px;
+	}
+}
+
+.gfield.gfield--type-fileupload {
+	@include media-breakpoint-up(md) {
+		display: flex !important;
+		flex-direction: row !important;
+		align-items: center !important;
+		justify-content: space-between !important;
+		gap: 20px !important;
+
+		.gfield_label {
+			flex: 0 0 calc(50% - 10px) !important;
+			width: calc(50% - 10px) !important;
+			margin: 0 !important;
+			padding: 0 0 0 15px !important;
+			box-sizing: border-box !important;
+		}
+
+		.ginput_container_fileupload {
+			flex: 0 0 calc(50% - 10px) !important;
+			width: calc(50% - 10px) !important;
+			margin: 0 !important;
+			padding: 0 !important;
+		}
+	}
+
+	.gform_fileupload_rules,
+	.gfield_description,
+	.validation_message {
+		display: none !important;
+	}
+}
+
+.ginput_container_fileupload {
+	input[type="file"] {
+		appearance: none;
+		-webkit-appearance: none;
+		width: 100% !important;
+		height: 60px !important;
+		background: transparent !important;
+		color: transparent !important;
+		font-size: 0 !important;
+		border: none !important;
+		cursor: pointer;
+		padding: 0 !important;
+		overflow: visible !important;
+
+		&::-webkit-file-upload-button {
+			visibility: visible;
+			display: block;
+			width: 100%;
+			height: 100%;
+			background: transparent !important;
+			border: 1px solid #000 !important;
+			color: #000;
+			text-transform: uppercase !important;
+			font-size: 14px;
+			letter-spacing: 1px;
+			cursor: pointer;
+			box-sizing: border-box !important;
+			transition: all 0.3s ease;
+			margin-top: 1px;
+			height: calc(100% - 2px);
+		}
+
+		&:hover::-webkit-file-upload-button {
+			background: rgba(0, 0, 0, 0.05) !important;
+		}
+	}
+}
+
+
+.gfield.gfield--type-textarea {
+	.charleft,
+	.gfield_description.instruction,
+	.ginput_counter {
+		display: none !important;
+	}
+}
+
+.gform_footer {
+	margin-top: 0 !important;
+	padding-top: 0 !important;
+	text-align: center;
+
+	input[type="submit"],
+	button[type="submit"] {
+		width: 100% !important;
+		height: 60px !important;
+		background-color: $white !important;
+		color: $teal !important;
+		border: none !important;
+		font-size: 20px !important;
+		font-weight: 600 !important;
+		letter-spacing: 4px !important;
+		text-transform: uppercase !important;
+		cursor: pointer;
+		transition: all 0.3s ease;
+
+		&:hover {
+			background-color: rgba(255, 255, 255, 0.9) !important;
+			transform: translateY(-2px);
+		}
+	}
+}
+
+.form-inner-content {
+	.phone-link, .form-phone-link {
+		color: $white !important;
+		text-decoration: none !important;
+
+		&:hover {
+			text-decoration: underline !important;
+		}
+	}
+}
+
+.form-contact-container #gform_wrapper_3 .gform_footer,
+.form-full #gform_wrapper_1 .gform_footer {
+	padding: 30px 0 0;
+	margin: 0;
+	display: flex !important;
+	justify-content: flex-end !important;
+}
+
+#gform_submit_button_3.gform_button,
+#gform_submit_button_1.gform_button {
+	width: 50% !important;
+	background-color: $teal !important;
+	color: $white !important;
+
+	&:hover {
+		background-color: darken($teal, 10%) !important;
+		transform: translateY(-2px);
+	}
+}
+
+.gform_wrapper.gform-theme--orbital .ginput_complex .address_line_1,
+.gform_wrapper.gform-theme--orbital .ginput_complex .address_line_2,
+.gform_wrapper.gform-theme--orbital .ginput_complex .address_zip {
+	grid-column: 1 / -1 !important;
+	width: 100% !important;
+}
+
+.gform_wrapper.gform-theme--orbital .ginput_complex .address_state select {
+	height: 60px !important;
+	min-height: 60px !important;
 }

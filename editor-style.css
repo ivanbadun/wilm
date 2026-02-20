@@ -30,12 +30,16 @@ h6, .h6 {
 
 .button {
 	padding: 10px 15px;
-	background-color: #52178e;
+	background-color: #00a19a;
 	text-transform: uppercase;
 	font-family: sans-serif;
 	font-weight: 700;
 	text-decoration: none;
 	color: #ffffff;
+
+	a {
+		color: white;
+	}
 }
 
 .two-columns {
@@ -60,4 +64,8 @@ small, .small {
 
 .text-align-justify {
 	text-align: justify;
+}
+
+a {
+	color: #00a19a;
 }

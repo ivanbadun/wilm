@@ -135,3 +135,153 @@ add_image_size( 'large_high', 1024, 0, false );
 
 // Disable gutenberg
 add_filter('use_block_editor_for_post_type', '__return_false');
+
+add_action('wp_ajax_filter_products', 'filter_products_callback');
+add_action('wp_ajax_nopriv_filter_products', 'filter_products_callback');
+
+function filter_products_callback() {
+    if ( ! isset( $_POST['category'] ) ) {
+        wp_die();
+    }
+
+    $category = $_POST['category'];
+
+    $args = [
+            'post_type'      => 'product',
+            'posts_per_page' => -1,
+            'orderby'        => 'menu_order',
+            'order'          => 'ASC',
+            'post_status'    => 'publish',
+    ];
+
+    if ($category !== 'all') {
+        $args['tax_query'] = [
+                [
+                        'taxonomy' => 'product_cat',
+                        'field'    => 'slug',
+                        'terms'    => $category,
+                ],
+        ];
+    }
+
+    $query = new WP_Query($args);
+
+    if ($query->have_posts()) :
+        while ($query->have_posts()) : $query->the_post(); ?>
+            <div class="col-12 col-md-6 col-lg-3 product-item">
+                <?php
+                get_template_part( 'parts/product' );
+                ?>
+            </div>
+        <?php endwhile;
+        wp_reset_postdata();
+    else : ?>
+        <p class="text-center"><?php _e( 'No products found', 'default' ); ?></p>
+    <?php endif;
+
+    wp_die();
+}
+
+if ( ! function_exists( 'render_custom_buttons' ) ) {
+    function render_custom_buttons( $buttons_data ) {
+        if ( empty( $buttons_data ) || !is_array($buttons_data) ) {
+            return;
+        }
+
+        foreach ( $buttons_data as $row ) {
+            $link   = isset($row['products_flex_link']) ? $row['products_flex_link'] : null;
+            $color  = isset($row['products_flex_color']) ? $row['products_flex_color'] : 'blue';
+
+            if ( $link && is_array($link) ) {
+                $url    = esc_url( $link['url'] );
+                $title  = esc_html( $link['title'] );
+                $target = ! empty( $link['target'] ) ? esc_attr( $link['target'] ) : '_self';
+
+                echo '<a href="' . $url . '" target="' . $target . '" class="btn btn--' . esc_attr($color) . '">' . $title . '</a>';
+            }
+        }
+    }
+}
+
+add_filter( 'tiny_mce_before_init', function( $settings ) {
+    $style_formats = array(
+            array(
+                    'title' => 'Buttons',
+                    'items' => array(
+                            array(
+                                    'title'    => 'Dark Blue Button',
+                                    'selector' => 'a',
+                                    'classes'  => 'btn btn--blue',
+                            ),
+                            array(
+                                    'title'    => 'Teal Button',
+                                    'selector' => 'a',
+                                    'classes'  => 'btn btn--teal',
+                            ),
+                    ),
+            ),
+    );
+    $settings['style_formats'] = json_encode( $style_formats );
+    return $settings;
+});
+
+
+add_filter('post_type_link', function($post_link, $post) {
+    if ($post->post_type === 'staff') {
+        if (empty(trim(strip_tags($post->post_content)))) {
+            return '#';
+        }
+    }
+    return $post_link;
+}, 10, 2);
+
+add_shortcode('phone_link', function() {
+    $phone = get_field('phone', 'options');
+    if( !$phone ) return '';
+
+    $phone_clean = preg_replace('/[^0-9+]/', '', $phone);
+    return '<a href="tel:' . $phone_clean . '" class="phone-link">' . $phone . '</a>';
+});
+
+function filter_search_results($query) {
+    if ( ! is_admin() && $query->is_main_query() && $query->is_search() ) {
+        $query->set( 'post_type', array( 'post', 'product' ) );
+    }
+}
+add_action( 'pre_get_posts', 'filter_search_results' );
+
+
+function custom_list_menu_shortcode($atts) {
+    $atts = shortcode_atts(array(
+            'menu' => 'site-map',
+    ), $atts);
+
+    $menu_items = wp_get_nav_menu_items($atts['menu']);
+
+    if (!$menu_items) {
+        return '';
+    }
+
+    $output = '<ul class="site-map-list">';
+
+    foreach ($menu_items as $item) {
+        $title = $item->title;
+        $url = $item->url;
+        $description = $item->description;
+
+        $output .= '<li>';
+        $output .= '<a href="' . esc_url($url) . '">' . esc_html($title) . '</a>';
+
+        if (!empty($description)) {
+            $output .= ' - ' . esc_html($description);
+        }
+
+        $output .= '</li>';
+    }
+
+    $output .= '</ul>';
+
+    return $output;
+}
+
+add_shortcode('listmenu', 'custom_list_menu_shortcode');
